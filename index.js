@@ -25,6 +25,20 @@ app.post("/login", async (request, response) => {
     response.json({ message: "Autenticación exitosa", token });
 });
 
+app.get("/verify-token", (request, response) => {
+    if(!request.headers.authorization) {
+        return response.status(401).json({ message: "Enviar el token"});
+    }
+
+    try {
+        var payload = jwt.verify(request.headers.authorization, secret);
+    } catch (error) {
+        return response.status(401).json({ message: "Token inválido"});
+    }
+
+    return response.json({ message: "Token válido"})
+});
+
 app.get("/posts", async(request, response) => {
     if(!request.headers.authorization) {
         return response.status(401).json({ message: "Enviar el token"});
