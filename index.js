@@ -7,10 +7,16 @@ const { authentication } = require("./db/users.js")
 const jwt = require("jsonwebtoken");
 const { list, register, show, update } = require("./db/posts.js");
 app.use(express.json());
+app.use("/public", express.static(`${__dirname}/assets`));
 
 app.listen(port, () => console.log(`Aplicación en ejecución por el puerto ${port}`));
 
+
+app.get("/", (request, response) => {
+    response.sendFile(`${__dirname}/views/index.html`);
+});
 app.post("/login", async (request, response) => {
+    console.log(request.body);
     const user = await authentication(request.body.username, request.body.password);
     if(!user) {
         return response.status(401).json({ message: "Autenticación fallida"});
