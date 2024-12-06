@@ -39,10 +39,24 @@
         </div>
 
         <div class="col-3 d-none logged">
-            Formulario
+            <h3>Registro de Post</h3>
+            <form>
+                <div class="mb-3">
+                    <label for="txt-title" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="txt-title">
+                    <div id="error-title" class="error-message form-text text-danger"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="txt-content" class="form-label">Contenido</label>
+                    <textarea class="form-control" id="txt-content"></textarea>
+                    <div id="error-content" class="error-message form-text text-danger"></div>
+                </div>
+                <button id="btn-register" type="submit" class="btn btn-primary">Registrar</button>
+            </form>
         </div>
 
-        <div class="col-9 d-none logged">
+        <div class="col-9 d-none logged ps-4">
+            <h3>Listado de Posts</h3>
             <table id="table-posts" class="table table-bordered">
                 <thead>
                     <tr>

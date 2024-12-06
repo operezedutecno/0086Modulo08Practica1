@@ -43,6 +43,50 @@ $(() => {
 
     });
 
+    $("#btn-register").click(function(event) {
+        event.preventDefault();
+
+        const token = localStorage.getItem("token");
+
+        const title = $("#txt-title").val();
+        const content = $("#txt-content").val();
+
+        $(".error-message").html("");
+
+        let validacion = true;
+
+        if(title.trim() == "") {
+            $("#error-title").html("Ingresar el título");
+            validacion = false;
+        }
+
+        if(content.trim() == "") {
+            $("#error-content").html("Ingresar el contenido");
+            validacion = false;
+        }
+
+        $.ajax({
+            method: "POST",
+            url: "/posts",
+            contentType: "application/json",
+            headers: {
+                "authorization": token
+            },
+            data: JSON.stringify({ title: title, content: content }),
+            success: function(response) {
+                $("#txt-title, #txt-content").val("");
+                alert("Registro de post exitoso");
+                postsList();
+            },
+            error: function(error) {
+                if(error.status == 401) {
+                    return $("#message-error").removeClass("d-none").html(error.responseJSON.message)
+                }
+                return $("#message-error").removeClass("d-none").html("Ocurrió un error en el servidor")
+            }
+        })
+    })
+
     $("#btn-logout").click(function() {
         if(confirm("¿Seguro desea cerrar sesión?")) {
             localStorage.removeItem("token");
